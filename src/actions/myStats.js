@@ -9,24 +9,45 @@
 
 // async actions
 
-export const getMyStats = (currentUser) => {
-  console.log('You hit your stats action', currentUser)
-  // debugger
-  return dispatch => {
-    return fetch(`http://localhost:3001/api/v1/stats/${currentUser.id}`, {
-      credentials: "include",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-     },
-    })
-      .then(r => r.json())
-      .then(fetchedStats => {
-        console.log('Here are your stats:', fetchedStats)
-        dispatch({ type: 'GET_MY_STATS', fetchedStats})
-      })
-    .catch(console.log)
-  }
+export const getMyStats = currentUser => {
+	console.log("You hit your stats action", currentUser)
+	// debugger
+	return dispatch => {
+		return fetch(`http://localhost:3001/api/v1/stats/${currentUser.id}`, {
+			credentials: "include",
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(r => r.json())
+			.then(fetchedStats => {
+				console.log("Here are your stats:", fetchedStats)
+				dispatch({ type: "GET_MY_STATS", fetchedStats })
+			})
+			.catch(console.log)
+	}
+}
+
+export const updateStats = (currentUser, score) => {
+	debugger
+	return dispatch => {
+		const url = `http://localhost:3001/api/v1/stats/${currentUser}`
+		return fetch(url, {
+			method: "PATCH",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({ score })
+		})
+			.then(r => r.json())
+			.then(r => {
+				console.log(r)
+				debugger
+				return dispatch({ type: "UPDATE_STATS", stats: r })
+			})
+			.catch(err => console.log(err))
+	}
 }
 
 // export const getMyStats = (currentUser, stats) => {
@@ -73,17 +94,3 @@ export const getMyStats = (currentUser) => {
 // }
 
 // NEED THIS??
-export const updateStats = (currentUser, score) => {
-  return dispatch => {
-    return fetch(`http://localhost:3001/api/v1/stats/${currentUser}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({score})
-    })
-      .then(r => r.json())
-      .then(r => { dispatch({type: 'UPDATE_STATS', stats: r })
-      })
-  }
-}
