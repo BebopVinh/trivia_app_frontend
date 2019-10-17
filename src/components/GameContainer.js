@@ -33,31 +33,31 @@ class GameContainer extends React.Component {
 
   endGame = () => {
     console.log('Game Over', this.state.questionIndex)
-    updateStats(this.props.currentUser.id, this.state.questionIndex)
-      return (
-        "GAME OVER"
-      )
+    this.props.updateStats(this.props.currentUser.id, this.state.questionIndex)
+    return (
+      "GAME OVER"
+    )
   }
 
   render() {
     console.log('These are props', this.props)
-      const { choice } = this.state.userAnswer
-      const { questions } = this.props
-      const newQuestions = randomQuestionNumbers(questions)
-      const { userStats } = this.state.questionIndex
+    const { choice } = this.state.userAnswer
+    const { questions } = this.props
+    const newQuestions = randomQuestionNumbers(questions)
+    const { userStats } = this.state.questionIndex
 
-console.log(this.state.questionIndex)
-        return (
-        <><Header as="h2" textAlign="center" style={{ fontFamily: 'OCR A Std, monospace', color: "grey", fontSize: '35px'}}>
-            Total Correct
+    console.log(this.state.questionIndex)
+    return (
+      <><Header as="h2" textAlign="center" style={{ fontFamily: 'OCR A Std, monospace', color: "grey", fontSize: '35px' }}>
+        Total Correct
               <div style={{ fontFamily: 'OCR A Std, monospace', fontSize: '20px' }}>
-                { this.props.total_correct ? this.props.total_correct : this.state.questionIndex }
-              </div>
-          </Header>
-          <Questions question={newQuestions[this.state.questionIndex]} nextQuestion={this.nextQuestion} endGame={this.endGame}/>
-        </>
-      )
-    }
+          {this.props.total_correct ? this.props.total_correct : this.state.questionIndex}
+        </div>
+      </Header>
+        <Questions question={newQuestions[this.state.questionIndex]} nextQuestion={this.nextQuestion} endGame={this.endGame} />
+      </>
+    )
+  }
 }
 
 const mapStateToProps = state => {
